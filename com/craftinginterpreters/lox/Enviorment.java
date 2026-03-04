@@ -8,6 +8,7 @@ class Environment {
   final Environment enclosing;
 //< enclosing-field
   private final Map<String, Object> values = new HashMap<>();
+  private final List<Object> slots = new ArrayList<>();
 //> environment-constructors
   Environment() {
     enclosing = null;
@@ -55,6 +56,7 @@ class Environment {
   void define(String name, Object value) {
     values.put(name, value);
   }
+
 //< environment-define
 //> Resolving and Binding ancestor
   Environment ancestor(int distance) {
@@ -86,4 +88,15 @@ class Environment {
 
     return result;
   }
+
+void define(String name, Object value) {
+  values.put(name, value);
+  slots.add(value); // Mirror value in the indexed slot
+}
+
+// O(1) retrieval using pre-calculated index
+Object getAtIndex(int distance, int index) {
+  return ancestor(distance).slots.get(index);
+}
+
 }

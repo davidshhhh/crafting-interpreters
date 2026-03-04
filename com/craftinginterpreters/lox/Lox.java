@@ -72,6 +72,10 @@ private static void run(String source) {
     //Expr expression = parser.parse();
 
     if (hadError) return;
+
+    Resolver resolver = new Resolver(interpreter);
+    resolver.resolve(statements);
+    if (hadError) return;
     //interpreter.interpret(expression);
     interpreter.interpret(statements);
   }
